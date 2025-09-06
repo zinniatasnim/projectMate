@@ -5,39 +5,1183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProjectMate - JKKNIU Student Collaboration Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f9c74f;
+            --gray: #6c757d;
+            --light-bg: #f1f6ff;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* REMOVED container padding/margin for full width */
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 20px 40px; /* Increased side padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 5px;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active:after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+            background: var(--secondary);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.3);
+        }
+        
+        .btn-accent:hover {
+            background: #d11479;
+            box-shadow: 0 6px 20px rgba(247, 37, 133, 0.4);
+        }
+        
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+            padding: 40px 0;
+            flex: 1;
+            width: 100%;
+        }
+        
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Hero Section - Full width */
+        .hero {
+            padding: 100px 40px; /* Increased side padding */
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            width: 100%;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--gray);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .graphic-element {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            right: -100px;
+        }
+        
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            left: -50px;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            background: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+            font-size: 28px;
+            color: var(--primary);
+            animation: float 5s infinite ease-in-out;
+        }
+        
+        .icon-1 {
+            top: 50px;
+            left: 50px;
+            animation-delay: 0s;
+        }
+        
+        .icon-2 {
+            top: 100px;
+            right: 80px;
+            animation-delay: 1s;
+        }
+        
+        .icon-3 {
+            bottom: 80px;
+            left: 100px;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Stats Section - Full width */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 80px 40px; /* Added side margin */
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            width: 220px;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        /* Section Styles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--secondary);
+            padding: 0 40px; /* Added side padding */
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            color: var(--gray);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 40px; /* Added side padding */
+        }
+        
+        /* Features Section - Full width */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 40px; /* Added side margin */
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            background: var(--light-bg);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        /* Projects Section - Full width */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 50px 40px; /* Added side margin */
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-img {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .project-content {
+            padding: 20px;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .project-desc {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+        
+        .project-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .skill-tag {
+            background: var(--light-bg);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* How It Works Section - Full width */
+        .how-it-works {
+            display: flex;
+            gap: 50px;
+            margin: 100px 40px; /* Added side margin */
+            align-items: center;
+        }
+        
+        .steps {
+            flex: 1;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+            padding-right: 40px; /* Added padding */
+        }
+        
+        .step-content p {
+            color: var(--gray);
+            line-height: 1.6;
+            padding-right: 40px; /* Added padding */
+        }
+        
+        /* Testimonials - Full width */
+        .testimonials {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 80px 40px; /* Added side padding */
+            color: white;
+            margin: 100px 0;
+            width: 100%;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* CTA Section - Full width */
+        .cta-section {
+            text-align: center;
+            padding: 80px 40px; /* Added side padding */
+            background: white;
+            margin: 100px 0;
+            box-shadow: var(--card-shadow);
+            width: 100%;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--gray);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Forms */
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Events Page - Full width */
+        .events {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 50px 40px; /* Added side margin */
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .event-date {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .event-date .day {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .event-date .month {
+            font-size: 1.2rem;
+        }
+        
+        .event-content {
+            padding: 20px;
+        }
+        
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .event-desc {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+        
+        .event-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        /* AI Match Section - Full width */
+        .ai-match-section {
+            background: white;
+            padding: 60px 40px; /* Added side padding */
+            box-shadow: var(--card-shadow);
+            margin: 80px 0;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .match-form {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .match-form input {
+            padding: 15px 20px;
+            border: 2px solid var(--light-bg);
+            border-radius: 50px;
+            font-size: 1rem;
+            width: 300px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .match-form input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .match-results {
+            margin-top: 50px;
+            text-align: left;
+            padding: 0 40px; /* Added side padding */
+        }
+        
+        .match-profile {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .match-profile:hover {
+            transform: translateX(10px);
+        }
+        
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h3 {
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
+        
+        .profile-info p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .profile-skills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .match-percentage {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-left: 20px;
+        }
+        
+        /* Footer - Full width */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 60px 40px 30px; /* Added side padding */
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            display: inline-block;
+            padding: 5px 0;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .ai-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent) 0%, #f9c74f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .ai-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-panel {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+        
+        .ai-panel.active {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .ai-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .ai-header h3 {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+        
+        .ai-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .ai-conversation {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            color: #333;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .ai-message {
+            background: #e6e6e6;
+            color: #333;
+            border-top-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: var(--primary);
+            color: white;
+            border-top-right-radius: 5px;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .ai-input {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .ai-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+        }
+        
+        .ai-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .ai-input button:hover {
+            background: var(--secondary);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 60px 20px;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .how-it-works {
+                flex-direction: column;
+                margin: 100px 20px;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+                margin: 80px 20px;
+            }
+            
+            .match-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .match-form input {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .features, .projects, .events {
+                margin: 60px 20px;
+            }
+            
+            .section-title, .section-subtitle {
+                padding: 0 20px;
+            }
+            
+            .step-content h3, .step-content p {
+                padding-right: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .ai-panel {
+                width: 300px;
+                right: -20px;
+            }
+            
+            .match-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .match-percentage {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .ai-match-section {
+                padding: 30px 20px;
+            }
+            
+            .testimonials, .cta-section {
+                padding: 60px 20px;
+            }
+            
+            .match-results {
+                padding: 0 20px;
+            }
+            
+            footer {
+                padding: 60px 20px 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-people-arrows"></i>
-                <span>ProjectMate</span>
-            </div>
-            <nav>
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Projects</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">How It Works</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <a href="#" class="btn btn-secondary">Sign In</a>
-                <a href="#" class="btn">Join Now</a>
-            </div>
-        </header>
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">
+            <i class="fas fa-people-arrows"></i>
+            <span>ProjectMate</span>
+        </a>
+        <nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul>
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="projects">Projects</a></li>
+                <li><a href="#" class="nav-link" data-page="events">Events</a></li>
+                <li><a href="#" class="nav-link" data-page="find-match">Find Match</a></li>
+                <li><a href="#" class="nav-link" data-page="how-it-works">How It Works</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="#" class="btn btn-secondary" onclick="showPage('login')">Sign In</a>
+            <a href="#" class="btn" onclick="showPage('register')">Join Now</a>
+        </div>
+    </header>
 
+    <!-- Home Page -->
+    <div id="home" class="page-content active">
         <section class="hero">
             <div class="hero-content">
                 <h1>Find Your Perfect Project Partner at JKKNIU</h1>
                 <p>Connect with talented students, discover exciting projects, and turn your ideas into reality through our AI-powered matchmaking platform.</p>
                 <div class="hero-buttons">
-                    <a href="#" class="btn">Get Started <i class="fas fa-arrow-right"></i></a>
+                    <a href="#" class="btn" onclick="showPage('register')">Get Started <i class="fas fa-arrow-right"></i></a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('find-match')"><i class="fas fa-code"></i> Find Matches</a>
                     <a href="#" class="btn btn-secondary"><i class="fas fa-play-circle"></i> Watch Demo</a>
                 </div>
             </div>
@@ -176,55 +1320,58 @@
             </div>
         </section>
 
-        <h2 class="section-title">Featured Projects</h2>
-        <p class="section-subtitle">Check out some of the amazing projects created by JKKNIU students</p>
-        
-        <section class="projects">
-            <div class="project-card">
-                <div class="project-img">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="project-content">
-                    <h3 class="project-title">Campus Navigation App</h3>
-                    <p class="project-desc">An interactive map to help students navigate around JKKNIU campus with points of interest.</p>
-                    <div class="project-skills">
-                        <span class="skill-tag">React Native</span>
-                        <span class="skill-tag">Maps API</span>
-                        <span class="skill-tag">UI/UX</span>
-                    </div>
-                    <a href="#" class="btn btn-sm">View Project</a>
-                </div>
+        <section class="ai-match-section">
+            <h2>Find Your Perfect Match with AI</h2>
+            <p>Our intelligent matching system connects you with ideal project partners based on skills, interests, and availability</p>
+            
+            <div class="match-form">
+                <input type="text" placeholder="Enter your skills (e.g. JavaScript, UI Design)">
+                <button class="btn btn-accent">Find Matches</button>
             </div>
             
-            <div class="project-card">
-                <div class="project-img">
-                    <i class="fas fa-seedling"></i>
-                </div>
-                <div class="project-content">
-                    <h3 class="project-title">Smart Agriculture System</h3>
-                    <p class="project-desc">IoT-based solution for monitoring crop health and automating irrigation processes.</p>
-                    <div class="project-skills">
-                        <span class="skill-tag">Arduino</span>
-                        <span class="skill-tag">IoT</span>
-                        <span class="skill-tag">Python</span>
+            <div class="match-results">
+                <h3>Recommended Matches</h3>
+                
+                <div class="match-profile">
+                    <div class="profile-avatar">SA</div>
+                    <div class="profile-info">
+                        <h3>Sarah Ahmed</h3>
+                        <p>Computer Science & Engineering</p>
+                        <div class="profile-skills">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">UI/UX</span>
+                        </div>
                     </div>
-                    <a href="#" class="btn btn-sm">View Project</a>
+                    <div class="match-percentage">92%</div>
                 </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-img">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div class="project-content">
-                    <h3 class="project-title">E-Library Platform</h3>
-                    <p class="project-desc">Digital library system for JKKNIU students to access course materials and resources.</p>
-                    <div class="project-skills">
-                        <span class="skill-tag">Web Development</span>
-                        <span class="skill-tag">Database</span>
-                        <span class="skill-tag">PHP</span>
+                
+                <div class="match-profile">
+                    <div class="profile-avatar">MR</div>
+                    <div class="profile-info">
+                        <h3>Md. Rahman</h3>
+                        <p>Electrical Engineering</p>
+                        <div class="profile-skills">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">IoT</span>
+                            <span class="skill-tag">Arduino</span>
+                        </div>
                     </div>
-                    <a href="#" class="btn btn-sm">View Project</a>
+                    <div class="match-percentage">88%</div>
+                </div>
+                
+                <div class="match-profile">
+                    <div class="profile-avatar">AK</div>
+                    <div class="profile-info">
+                        <h3>Ayesha Khan</h3>
+                        <p>Business Administration</p>
+                        <div class="profile-skills">
+                            <span class="skill-tag">Marketing</span>
+                            <span class="skill-tag">Research</span>
+                            <span class="skill-tag">Planning</span>
+                        </div>
+                    </div>
+                    <div class="match-percentage">85%</div>
                 </div>
             </div>
         </section>
@@ -277,61 +1424,267 @@
 
         <section class="cta-section">
             <h2>Ready to Find Your Project Team?</h2>
-            <p>Join hundreds of JKKNIU students who are already using ProjectMate to bring their ideas to life</p>
-            <a href="#" class="btn btn-accent">Get Started Now</a>
+            <p>Join hundreds of JKKNIU students who are already using ProjectMate to bring your ideas to life</p>
+            <a href="#" class="btn btn-accent" onclick="showPage('register')">Get Started Now</a>
         </section>
+    </div>
 
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-column">
-                        <h3>ProjectMate</h3>
-                        <p>JKKNIU's premier student collaboration platform for finding project partners and turning ideas into reality.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Quick Links</h3>
-                        <ul class="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Projects</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">How It Works</a></li>
-                            <li><a href="#">About</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Resources</h3>
-                        <ul class="footer-links">
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Tutorials</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Contact Info</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> Jatiya Kabi Kazi Nazrul Islam University, Trishal, Mymensingh</p>
-                        <p><i class="fas fa-envelope"></i> info@projectmate.jkkniu.edu.bd</p>
-                        <p><i class="fas fa-phone"></i> +880 XXX-XXXXXXX</p>
+    <!-- Other page content would follow the same pattern with full width -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ProjectMate</h3>
+                    <p>JKKNIU's premier student collaboration platform for finding project partners and turning ideas into reality.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 
-                <div class="copyright">
-                    <p>&copy; 2023 ProjectMate - JKKNIU Project Collaboration Platform. All rights reserved.</p>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                        <li><a href="#" onclick="showPage('events')">Events</a></li>
+                        <li><a href="#" onclick="showPage('find-match')">Find Match</a></li>
+                        <li><a href="#" onclick="showPage('how-it-works')">How It Works</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jatiya Kabi Kazi Nazrul Islam University, Trishal, Mymensingh</p>
+                    <p><i class="fas fa-envelope"></i> info@projectmate.jkkniu.edu.bd</p>
+                    <p><i class="fas fa-phone"></i> +880 XXX-XXXXXXX</p>
                 </div>
             </div>
-        </footer>
+            
+            <div class="copyright">
+                <p>&copy; 2023 ProjectMate - JKKNIU Project Collaboration Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-toggle">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="ai-panel">
+            <div class="ai-header">
+                <h3><i class="fas fa-robot"></i> Project Match Assistant</h3>
+                <button class="ai-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="ai-conversation">
+                <div class="message ai-message">
+                    Hi there! I'm your project match assistant. How can I help you find the perfect project partner today?
+                </div>
+            </div>
+            <div class="ai-input">
+                <input type="text" placeholder="Ask me anything about project matching...">
+                <button><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Update active nav link if it exists for this page
+            const activeNavLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+        
+        // Navigation link clicks
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+                
+                // Close mobile menu if open
+                document.querySelector('nav ul').classList.remove('show');
+            });
+        });
+        
+        // Auth button clicks
+        document.querySelectorAll('.auth-buttons a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                // The onclick attribute already handles page navigation
+            });
+        });
+
+        // Simple animation for stats counting up
+        document.addEventListener('DOMContentLoaded', function() {
+            const statItems = document.querySelectorAll('.stat-item');
+            
+            statItems.forEach(item => {
+                const statNumber = item.querySelector('.stat-number');
+                const target = parseInt(statNumber.textContent);
+                let current = 0;
+                const increment = target / 50;
+                
+                const updateNumber = () => {
+                    if (current < target) {
+                        current += increment;
+                        statNumber.textContent = Math.round(current) + (statNumber.textContent.includes('%') ? '%' : '+');
+                        setTimeout(updateNumber, 50);
+                    } else {
+                        statNumber.textContent = target + (statNumber.textContent.includes('%') ? '%' : '+');
+                    }
+                };
+                
+                // Start counting when element is in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateNumber();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(item);
+            });
+            
+            // Initialize AI assistant with sample message
+            setTimeout(() => {
+                addAIMessage("I can help you find team members based on skills, interests, or project needs. Try asking me something like 'Find me a web developer for my e-commerce project'");
+            }, 1500);
+            
+            // Initialize match finder button
+            document.querySelector('.match-form button').addEventListener('click', function() {
+                const skillsInput = document.querySelector('.match-form input');
+                if (skillsInput.value.trim() !== '') {
+                    showPage('find-match');
+                } else {
+                    alert('Please enter some skills to find matches');
+                }
+            });
+        });
+
+        // AI Assistant functionality
+        const aiToggle = document.querySelector('.ai-toggle');
+        const aiPanel = document.querySelector('.ai-panel');
+        const aiClose = document.querySelector('.ai-close');
+        const aiInput = document.querySelector('.ai-input input');
+        const aiButton = document.querySelector('.ai-input button');
+        const aiConversation = document.querySelector('.ai-conversation');
+
+        aiToggle.addEventListener('click', () => {
+            aiPanel.classList.toggle('active');
+        });
+
+        aiClose.addEventListener('click', () => {
+            aiPanel.classList.remove('active');
+        });
+
+        function addAIMessage(text) {
+            const message = document.createElement('div');
+            message.classList.add('message', 'ai-message');
+            message.textContent = text;
+            aiConversation.appendChild(message);
+            aiConversation.scrollTop = aiConversation.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const message = document.createElement('div');
+            message.classList.add('message', 'user-message');
+            message.textContent = text;
+            aiConversation.appendChild(message);
+            aiConversation.scrollTop = aiConversation.scrollHeight;
+        }
+
+        aiButton.addEventListener('click', sendMessage);
+        aiInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = aiInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                aiInput.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    let response;
+                    
+                    if (message.toLowerCase().includes('web developer') || message.toLowerCase().includes('developer')) {
+                        response = "I've found 3 web developers who might be a good fit for your project. Would you like me to show you their profiles?";
+                    } else if (message.toLowerCase().includes('designer')) {
+                        response = "I see you're looking for a designer. We have several talented UI/UX designers available. What type of project are you working on?";
+                    } else if (message.toLowerCase().includes('project') || message.toLowerCase().includes('idea')) {
+                        response = "That sounds interesting! To help you find the right team members, could you tell me what skills are needed for your project?";
+                    } else if (message.toLowerCase().includes('hackathon')) {
+                        response = "Great! We have several hackathons coming up. Are you looking for a team to join or teammates for your own project?";
+                    } else if (message.toLowerCase().includes('match') || message.toLowerCase().includes('find')) {
+                        response = "I can help you find team members for your project. You can also use our matching system on the 'Find Match' page for more detailed results.";
+                        setTimeout(() => {
+                            addAIMessage("Would you like me to take you to the matching page?");
+                        }, 1000);
+                    } else {
+                        response = "I can help you find team members for your project. Tell me about your project or what skills you're looking for.";
+                    }
+                    
+                    addAIMessage(response);
+                }, 1000);
+            }
+        }
+        
+        // Close AI panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (aiPanel.classList.contains('active') && 
+                !aiPanel.contains(e.target) && 
+                !aiToggle.contains(e.target)) {
+                aiPanel.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
